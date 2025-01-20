@@ -1,19 +1,26 @@
-using Kotolazer.InputSystem;
+using System.Collections.Generic;
+using AttackModule;
+using InputSystem;
 using UnityEngine;
 
-namespace Kotolazer.Client
+namespace Client
 {
     [RequireComponent(typeof(Animator))]
-    public class Client : MonoBehaviour
+    public class Player : MonoBehaviour
     {
         [SerializeField] private DesktopInput _input;
         [SerializeField] private Animator _animator;
         private AttackPerformer _performer;
         private AttackType _attackType;
+        private List<IAttackPerformer> _attackPerformers;
 
         private void OnValidate() => _animator ??= GetComponent<Animator>();
 
-        private void Awake() => _performer = new AttackPerformer();
+        public void Construct(List<IAttackPerformer> attackPerformers) 
+        {
+            _performer = new AttackPerformer();
+            _attackPerformers = attackPerformers;
+        }
 
         private void OnEnable() => _input.OnAttack += Attack;
 
@@ -26,13 +33,13 @@ namespace Kotolazer.Client
             switch (_attackType)
             {
                 case AttackType.First:
-                    _performer.Attack(new FirstAttack(), _animator);
+                    _performer.Attack(_attackPerformers[0], _animator);
                     break;
                 case AttackType.Second:
-                    _performer.Attack(new SecondAttack(), _animator);
+                    _performer.Attack(_attackPerformers[1], _animator);
                     break;
                 case AttackType.Third:
-                    _performer.Attack(new ThirdAttack(), _animator);
+                    _performer.Attack(_attackPerformers[2], _animator);
                     break;
             }
         }
