@@ -3,11 +3,15 @@ using UnityEngine;
 
 namespace Kotolazer.Client
 {
+    [RequireComponent(typeof(Animator))]
     public class Client : MonoBehaviour
     {
         [SerializeField] private DesktopInput _input;
+        [SerializeField] private Animator _animator;
         private AttackPerformer _performer;
         private AttackType _attackType;
+
+        private void OnValidate() => _animator ??= GetComponent<Animator>();
 
         private void Awake() => _performer = new AttackPerformer();
 
@@ -22,13 +26,13 @@ namespace Kotolazer.Client
             switch (_attackType)
             {
                 case AttackType.First:
-                    _performer.Attack(new FirstAttack());
+                    _performer.Attack(new FirstAttack(), _animator);
                     break;
                 case AttackType.Second:
-                    _performer.Attack(new SecondAttack());
+                    _performer.Attack(new SecondAttack(), _animator);
                     break;
                 case AttackType.Third:
-                    _performer.Attack(new ThirdAttack());
+                    _performer.Attack(new ThirdAttack(), _animator);
                     break;
             }
         }
