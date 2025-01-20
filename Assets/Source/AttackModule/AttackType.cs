@@ -1,4 +1,4 @@
-namespace Kotolazer.Client
+namespace AttackModule
 {
     public enum AttackType
     {

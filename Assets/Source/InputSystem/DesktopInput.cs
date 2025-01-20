@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Kotolazer.InputSystem
+namespace InputSystem
 {
     public class DesktopInput : MonoBehaviour
     {
